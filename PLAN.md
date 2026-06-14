@@ -40,40 +40,34 @@
 ## Fase 5 — Deploy su Ubuntu Server
 
 ### Prerequisiti server
-- [ ] Verificare Python 3.10+: `python3 --version`
-- [ ] Installare pip se non presente: `sudo apt install python3-pip`
-- [ ] Installare dipendenze sistema per Playwright:
-  ```bash
-  sudo apt install -y libglib2.0-0 libnss3 libnspr4 libatk1.0-0 \
-    libatk-bridge2.0-0 libcups2 libdrm2 libdbus-1-3 libxcb1 \
-    libxkbcommon0 libx11-6 libxcomposite1 libxdamage1 libxext6 \
-    libxfixes3 libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
-  ```
+- [x] Verificare Python 3.10+: `python3 --version`
+- [x] Installare pip, venv e git se non presenti: `sudo apt install -y python3-pip python3-venv git`
 
 ### Upload progetto (via git)
-- [ ] Creare repository **pubblico** su GitHub e fare il primo push (locale → remoto)
-- [ ] Sul server, clonare il repository via HTTPS (nessuna autenticazione necessaria, repo pubblico): `git clone https://github.com/<utente>/pollinibot.git /opt/pollinibot`
-- [ ] Creare venv sul server: `python3 -m venv /opt/pollinibot/venv`
-- [ ] Installare dipendenze: `/opt/pollinibot/venv/bin/pip install -r requirements.txt`
-- [ ] Installare Playwright chromium: `/opt/pollinibot/venv/bin/playwright install chromium`
-- [ ] Creare `.env` sul server con i valori reali (file non versionato, va creato a mano)
+- [x] Creare repository **pubblico** su GitHub e fare il primo push (locale → remoto): https://github.com/arrubiu/pollinbot
+- [x] Sul server, clonare il repository via HTTPS (nessuna autenticazione necessaria, repo pubblico): `git clone https://github.com/arrubiu/pollinbot.git /home/ubuntu/sergej/websites/pollinbot`
+- [x] Creare venv sul server: `python3 -m venv /home/ubuntu/sergej/websites/pollinbot/venv`
+- [x] Installare dipendenze: `/home/ubuntu/sergej/websites/pollinbot/venv/bin/pip install -r requirements.txt`
+- [x] Installare dipendenze di sistema per Playwright (rileva automaticamente i nomi pacchetto corretti per la versione di Ubuntu): `sudo /home/ubuntu/sergej/websites/pollinbot/venv/bin/playwright install-deps chromium`
+- [x] Installare il browser Playwright Chromium: `/home/ubuntu/sergej/websites/pollinbot/venv/bin/playwright install chromium`
+- [x] Creare `.env` sul server con i valori reali (file non versionato, va creato a mano)
 
 ### Aggiornamenti futuri
-- [ ] Per aggiornare il codice: `cd /opt/pollinibot && git pull`
-- [ ] Se cambia `requirements.txt`: `/opt/pollinibot/venv/bin/pip install -r requirements.txt`
+- [ ] Per aggiornare il codice: `cd /home/ubuntu/sergej/websites/pollinbot && git pull` (per il push da locale invece, il remoto `origin` usa SSH: `git@github.com:arrubiu/pollinbot.git`)
+- [ ] Se cambia `requirements.txt`: `/home/ubuntu/sergej/websites/pollinbot/venv/bin/pip install -r requirements.txt`
 
 ### Configurazione crontab
-- [ ] Aprire crontab: `crontab -e`
-- [ ] Aggiungere la riga (ogni giorno alle 8:00):
+- [x] Aprire crontab: `crontab -e`
+- [x] Aggiungere la riga (ogni giorno alle 8:00):
   ```
-  0 8 * * * /opt/pollinibot/venv/bin/python /opt/pollinibot/main.py >> /var/log/pollinibot.log 2>&1
+  0 8 * * * /home/ubuntu/sergej/websites/pollinbot/venv/bin/python /home/ubuntu/sergej/websites/pollinbot/main.py >> /home/ubuntu/sergej/websites/pollinbot/pollinibot.log 2>&1
   ```
-- [ ] Verificare con `crontab -l`
-- [ ] Testare esecuzione manuale dal server: `/opt/pollinibot/venv/bin/python /opt/pollinibot/main.py`
+- [x] Verificare con `crontab -l`
+- [x] Testare esecuzione manuale dal server: `/home/ubuntu/sergej/websites/pollinbot/venv/bin/python /home/ubuntu/sergej/websites/pollinbot/main.py`
 ma
 ## Fase 6 — Manutenzione
 
-- [ ] Controllare il log periodicamente: `tail -f /var/log/pollinibot.log`
+- [ ] Controllare il log periodicamente: `tail -f /home/ubuntu/sergej/websites/pollinbot/pollinibot.log`
 - [ ] Aggiornare i selettori HTML se ISPRA o 3bmeteo cambiano struttura della pagina
 
 ---
